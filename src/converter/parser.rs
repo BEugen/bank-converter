@@ -1,7 +1,7 @@
-use std::fs::File;
-use std::io;
+
 use std::io::{BufRead, BufReader, Stdin};
 use crate::models::camt053::*;
+use crate::errors::{ParserError};
 
 pub enum FormatType {
     None,
@@ -23,29 +23,30 @@ impl Document {
     pub(crate) fn default() -> Self {
         todo!()
     }
-    
-    fn from_csv(buf_reader: Stdin) -> Result<Self, E>{
-        
+
+    fn from_csv(buf_reader: Stdin) -> Result<Self>{
+
     }
-    fn from_camt053(buff_read: Stdin) -> Result<Self, E> {
-        
+    fn from_camt053(buff_read: Stdin) -> Result<Self> {
+
+
     }
-    
-    fn from_mt940(buf_reader: Stdin) -> Result<Self, E> {}
-    
-    
+
+    fn from_mt940(buf_reader: Stdin) -> Result<Self> {}
+
+
 }
 
 
 
 impl From<InputDataType> for Document {
-    fn from(value: InputDataType) -> Result<Self, E> {
+    fn from(value: InputDataType) -> Result<Self> {
         match value.format_type {
             FormatType::Camt053 | FormatType::Xml =>{ Document::from_camt053(value.buff_read)},
             FormatType::Mt940 => { Document::from_mt940(value.buff_read)},
             FormatType::Csv => { Document::from_csv(value.buff_read)
             },
-            _ => {}
+            _ => { Err(ParserError::BadInputFormatFile(String::from("Unsupported format")))}
         }
     }
 }

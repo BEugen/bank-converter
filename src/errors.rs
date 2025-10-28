@@ -10,7 +10,7 @@ enum CommandArgsError
 
 
 #[derive(Error, Debug)]
-enum ParserError
+pub enum ParserError
 {
     FileReadError(String),
     BadInputFormatFile(String),
